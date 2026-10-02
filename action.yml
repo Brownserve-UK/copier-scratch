@@ -1,0 +1,7 @@
+name: scratch-action
+description: Throwaway composite action for Dependabot tests
+runs:
+  using: composite
+  steps:
+    - run: echo v1.0.0
+      shell: bash

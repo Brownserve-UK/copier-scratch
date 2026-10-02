@@ -1,0 +1,36 @@
+name: build
+on:
+  workflow_call:
+    inputs:
+      rust:
+        type: boolean
+        default: false
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo lint
+
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        target: [linux, windows]
+    steps:
+      - run: echo "test ${{ matrix.target }}"
+
+  rust:
+    if: inputs.rust
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo rust
+
+  gate:
+    if: always()
+    needs: [lint, test, rust]
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          echo '${{ toJSON(needs) }}'
+          [ "${{ contains(needs.*.result, 'failure') || contains(needs.*.result, 'cancelled') }}" = "false" ]
