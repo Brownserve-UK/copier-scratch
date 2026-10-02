@@ -3,5 +3,5 @@ description: Throwaway composite action for Dependabot tests
 runs:
   using: composite
   steps:
-    - run: echo v1.1.0
+    - run: echo v1.2.0
       shell: bash
